@@ -14,7 +14,7 @@ def move(turtle, key):
     turtle.penup()
     turtle.goto(points[key])
     turtle.pendown()
-    turtle.color('red', 'red')
+    turtle.color('white', 'red')
     turtle.begin_fill()
     turtle.circle(30)
     turtle.end_fill()
