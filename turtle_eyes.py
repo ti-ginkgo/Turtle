@@ -2,6 +2,7 @@ import sys
 import os
 import argparse
 import time
+import cv2
 from turtle import *
 from logging import getLogger, StreamHandler, FileHandler, DEBUG
 from datetime import datetime
@@ -18,7 +19,6 @@ def move(turtle, key):
     turtle.begin_fill()
     turtle.circle(30)
     turtle.end_fill()
-    time.sleep(1)
 
 
 def main(args):
@@ -36,6 +36,7 @@ def main(args):
         print(screen.window_height())
         print(screen.window_width())
 
+    time.sleep(10)
     if args.logging:
         logger = getLogger(__name__)
         handler = FileHandler(datetime.now().strftime('%Y.%m.%d')+'.log')
@@ -44,18 +45,20 @@ def main(args):
         logger.addHandler(handler)
         logger.propagate = False
 
-    for key in keys:
-        if args.logging:
-            logger.debug(datetime.now().strftime('%Y/%m/%d %H:%M:%S'))
-        move(turtle, key)
-        time.sleep(3)
+    for i in range(0, 3):
+        for key in keys:
+            if args.logging:
+                logger.debug(datetime.now().strftime('%Y/%m/%d %H:%M:%S'))
+                logger.info('{}/{} epochs: display at {}'.format(i+1, 3, points[key]))
+            move(turtle, key)
+            time.sleep(3)
 
 
 def parse_arguments(argv):
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--debug', type=bool, default=False)
-    parser.add_argument('--logging', type=bool, default=False)
+    parser.add_argument('--log', type=bool, default=False)
 
     return parser.parse_args(argv)
 
